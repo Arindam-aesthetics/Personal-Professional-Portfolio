@@ -34,21 +34,25 @@
 
   /* CUSTOM CURSOR */
   #cursor {
-    position: fixed; width: 12px; height: 12px;
+    position: fixed; width: 10px; height: 10px;
     background: var(--accent); border-radius: 50%;
     pointer-events: none; z-index: 9999;
     transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-    mix-blend-mode: difference;
+    transition: width 0.3s, height 0.3s;
+    box-shadow: 0 0 12px var(--accent), 0 0 24px rgba(0,229,255,0.4);
   }
   #cursor-trail {
-    position: fixed; width: 40px; height: 40px;
-    border: 1px solid rgba(0,229,255,0.3); border-radius: 50%;
+    position: fixed; width: 36px; height: 36px;
+    border: 1px solid rgba(0,229,255,0.25); border-radius: 50%;
     pointer-events: none; z-index: 9998;
     transform: translate(-50%,-50%);
-    transition: transform 0.15s ease, left 0.15s ease, top 0.15s ease;
+    transition: left 0.12s ease, top 0.12s ease;
   }
-  body:hover #cursor { opacity: 1; }
+  .comet-dot {
+    position: fixed; border-radius: 50%; pointer-events: none;
+    z-index: 9997; transform: translate(-50%,-50%);
+    background: var(--accent); transition: opacity 0.4s;
+  }
 
   /* NOISE OVERLAY */
   body::before {
@@ -515,6 +519,66 @@
 
   /* TYPEWRITER */
   .typewriter { border-right: 2px solid var(--accent); white-space: nowrap; overflow: hidden; }
+
+  /* GLITCH EFFECT */
+  @keyframes glitch1 {
+    0%,100% { clip-path: inset(0 0 98% 0); transform: translate(-3px,0); }
+    25% { clip-path: inset(20% 0 60% 0); transform: translate(3px,0); }
+    50% { clip-path: inset(50% 0 30% 0); transform: translate(-2px,0); }
+    75% { clip-path: inset(80% 0 5% 0); transform: translate(2px,0); }
+  }
+  @keyframes glitch2 {
+    0%,100% { clip-path: inset(0 0 98% 0); transform: translate(3px,0); }
+    25% { clip-path: inset(40% 0 40% 0); transform: translate(-3px,0); }
+    50% { clip-path: inset(10% 0 70% 0); transform: translate(2px,0); }
+    75% { clip-path: inset(70% 0 15% 0); transform: translate(-2px,0); }
+  }
+  .hero-name { position: relative; }
+  .hero-name::before, .hero-name::after {
+    content: attr(data-text);
+    position: absolute; inset: 0;
+    font-size: inherit; font-weight: inherit; line-height: inherit;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .hero-name::before { color: #ff0066; animation: glitch1 0.15s steps(1) forwards; }
+  .hero-name::after  { color: #00e5ff; animation: glitch2 0.15s steps(1) forwards; }
+  .hero-name.glitching::before,
+  .hero-name.glitching::after { opacity: 0.6; }
+
+  /* TYPING CURSOR */
+  .typed-text { border-right: 2px solid var(--accent); padding-right: 2px; }
+
+  /* 3D TILT */
+  .project-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* MAGNETIC BTN */
+  .btn { will-change: transform; }
+
+  /* SKILL BAR SHIMMER */
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  .skill-item:hover .skill-name {
+    background: linear-gradient(90deg, var(--text) 0%, var(--accent) 40%, var(--text) 60%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: shimmer 1.2s linear forwards;
+  }
+
+  /* SECTION NUMBER COUNTER */
+  .section-counter {
+    font-family: var(--font-mono); font-size: 5rem; font-weight: 800;
+    color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+    position: absolute; top: -20px; right: 0; line-height: 1;
+    pointer-events: none; user-select: none;
+    letter-spacing: -0.05em;
+  }
+
 </style>
 </head>
 <body>
@@ -555,12 +619,12 @@
   <div class="hero-glow2"></div>
 
   <p class="hero-eyebrow">Available for opportunities</p>
-  <h1 class="hero-name">
+  <h1 class="hero-name" id="heroName" data-text="Arindam">
     Arindam<br>
     <span class="line2">Bhattacharjee</span>
   </h1>
   <p class="hero-tagline">
-    // developer · builder · creator<br>
+    <span id="typedText" class="typed-text"></span><br>
     Crafting clean code and thoughtful digital experiences — from web apps to tools people actually use.
   </p>
   <div class="hero-cta">
@@ -742,11 +806,11 @@
     <p>Have a project in mind, want to collaborate, or just want to say hi? I'm always open to interesting conversations and new opportunities.</p>
   </div>
   <div class="contact-links reveal">
-    <a href="mailto:bhattacharyaa321@gmail.com" class="contact-link">
+    <a href="/cdn-cgi/l/email-protection#c1a3a9a0b5b5a0a2a9a0b3b8a0a0f2f3f081a6aca0a8adefa2aeac" class="contact-link">
       <div class="contact-link-icon">✉️</div>
       <div class="contact-link-text">
         <div class="contact-link-label">Email</div>
-        <div class="contact-link-value">bhattacharyaa321@gmail.com</div>
+        <div class="contact-link-value"><span class="__cf_email__" data-cfemail="84e6ece5f0f0e5e7ece5f6fde5e5b7b6b5c4e3e9e5ede8aae7ebe9">[email&#160;protected]</span></div>
       </div>
       <span class="contact-link-arrow">→</span>
     </a>
@@ -773,70 +837,159 @@
 <footer>
   <div class="logo-small">&lt;<span>Arin</span> /&gt;</div>
   <div>© 2025 Arindam Bhattacharjee — Built with passion &amp; code</div>
-  <div style="color:var(--accent)">bhattacharyaa321@gmail.com</div>
+  <div style="color:var(--accent)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c0e040d18180d0f040d1e150d0d5f5e5d2c0b010d0500420f0301">[email&#160;protected]</a></div>
 </footer>
 
-<script>
-// Custom Cursor
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ═══════════════════════════════════════════
+// COMET CURSOR TRAIL
+// ═══════════════════════════════════════════
 const cursor = document.getElementById('cursor');
 const trail = document.getElementById('cursor-trail');
 let mx = 0, my = 0, tx = 0, ty = 0;
 
+// Comet dots
+const DOTS = 14;
+const dots = [];
+const positions = Array.from({length: DOTS}, () => ({x: 0, y: 0}));
+
+for (let i = 0; i < DOTS; i++) {
+  const d = document.createElement('div');
+  d.className = 'comet-dot';
+  const size = Math.max(1.5, 7 - i * 0.5);
+  d.style.cssText = `width:${size}px;height:${size}px;opacity:${(1 - i/DOTS)*0.7};`;
+  document.body.appendChild(d);
+  dots.push(d);
+}
+
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
 });
 
-function animateTrail() {
-  tx += (mx - tx) * 0.12;
-  ty += (my - ty) * 0.12;
-  trail.style.left = tx + 'px';
-  trail.style.top = ty + 'px';
-  requestAnimationFrame(animateTrail);
+function animateCursor() {
+  tx += (mx - tx) * 0.14;
+  ty += (my - ty) * 0.14;
+  trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
+
+  positions.unshift({x: mx, y: my});
+  if (positions.length > DOTS) positions.pop();
+
+  dots.forEach((dot, i) => {
+    const pos = positions[Math.min(i * 2, positions.length - 1)];
+    if (pos) { dot.style.left = pos.x + 'px'; dot.style.top = pos.y + 'px'; }
+  });
+  requestAnimationFrame(animateCursor);
 }
-animateTrail();
+animateCursor();
 
 document.querySelectorAll('a, button').forEach(el => {
   el.addEventListener('mouseenter', () => {
-    cursor.style.width = '20px';
-    cursor.style.height = '20px';
+    cursor.style.width = '18px'; cursor.style.height = '18px';
   });
   el.addEventListener('mouseleave', () => {
-    cursor.style.width = '12px';
-    cursor.style.height = '12px';
+    cursor.style.width = '10px'; cursor.style.height = '10px';
   });
 });
 
-// Particles
+// ═══════════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════════
 const container = document.getElementById('particles');
 for (let i = 0; i < 20; i++) {
   const p = document.createElement('div');
   p.className = 'particle';
   const size = Math.random() * 3 + 1;
   p.style.cssText = `
-    width: ${size}px; height: ${size}px;
-    left: ${Math.random() * 100}%;
-    animation-duration: ${Math.random() * 20 + 15}s;
-    animation-delay: ${Math.random() * 15}s;
-    opacity: 0;
-    background: ${Math.random() > 0.5 ? 'var(--accent)' : 'var(--accent2)'};
+    width:${size}px;height:${size}px;left:${Math.random()*100}%;
+    animation-duration:${Math.random()*20+15}s;
+    animation-delay:${Math.random()*15}s;opacity:0;
+    background:${Math.random()>0.5?'var(--accent)':'var(--accent2)'};
   `;
   container.appendChild(p);
 }
 
-// Scroll Reveal
+// ═══════════════════════════════════════════
+// TYPING ANIMATION
+// ═══════════════════════════════════════════
+const typedEl = document.getElementById('typedText');
+const phrases = ['developer', 'builder', 'creator'];
+let pi = 0, ci = 0, deleting = false;
+
+function type() {
+  const word = phrases[pi];
+  if (!deleting) {
+    typedEl.textContent = '// ' + word.slice(0, ci + 1);
+    ci++;
+    if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+  } else {
+    typedEl.textContent = '// ' + word.slice(0, ci - 1);
+    ci--;
+    if (ci === 0) {
+      deleting = false;
+      pi = (pi + 1) % phrases.length;
+      setTimeout(type, 400); return;
+    }
+  }
+  setTimeout(type, deleting ? 60 : 90);
+}
+setTimeout(type, 1600);
+
+// ═══════════════════════════════════════════
+// GLITCH EFFECT
+// ═══════════════════════════════════════════
+const heroName = document.getElementById('heroName');
+function triggerGlitch() {
+  heroName.classList.add('glitching');
+  setTimeout(() => heroName.classList.remove('glitching'), 200);
+  setTimeout(triggerGlitch, 3000 + Math.random() * 4000);
+}
+setTimeout(triggerGlitch, 2500);
+
+// ═══════════════════════════════════════════
+// 3D TILT ON PROJECT CARDS
+// ═══════════════════════════════════════════
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width - 0.5) * 14;
+    const y = ((e.clientY - r.top) / r.height - 0.5) * -14;
+    card.style.transform = `perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-6px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ═══════════════════════════════════════════
+// MAGNETIC BUTTONS
+// ═══════════════════════════════════════════
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width/2) * 0.3;
+    const y = (e.clientY - r.top - r.height/2) * 0.3;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+// ═══════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver(entries => {
   entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
-    }
+    if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 reveals.forEach(el => observer.observe(el));
 
-// Hamburger menu
+// ═══════════════════════════════════════════
+// HAMBURGER MENU
+// ═══════════════════════════════════════════
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 hamburger.addEventListener('click', () => {
@@ -852,19 +1005,19 @@ document.querySelectorAll('.mobile-nav-link').forEach(link => {
   });
 });
 
-// Active nav link highlight
+// ═══════════════════════════════════════════
+// ACTIVE NAV HIGHLIGHT
+// ═══════════════════════════════════════════
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
   let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 120) current = s.id;
-  });
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
   navLinks.forEach(a => {
     a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
   });
 });
+</script><script>
 </script>
 </body>
-
 </html>
