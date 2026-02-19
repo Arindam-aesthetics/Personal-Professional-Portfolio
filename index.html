@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Arindam Bhattacharjee - Portfolio</title>
+<title>Arindam Bhattacharjee — Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,7 +68,7 @@
     padding: 20px 48px;
     display: flex; justify-content: space-between; align-items: center;
     background: linear-gradient(to bottom, rgba(8,10,15,0.95), transparent);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px); z-index: 300;
   }
   .nav-logo {
     font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em;
@@ -93,7 +93,7 @@
   /* HAMBURGER */
   .hamburger {
     display: none; flex-direction: column; gap: 5px; cursor: none;
-    padding: 4px; z-index: 200; background: none; border: none;
+    padding: 4px; z-index: 300; background: none; border: none; position: relative;
   }
   .hamburger span {
     display: block; width: 24px; height: 2px;
@@ -170,9 +170,10 @@
   }
 
   .hero-name {
-    font-size: clamp(3.5rem, 9vw, 8rem);
-    font-weight: 800; line-height: 0.95;
+    font-size: clamp(2rem, 6.5vw, 8rem);
+    font-weight: 800; line-height: 1.0;
     letter-spacing: -0.03em;
+    word-break: break-word; overflow-wrap: break-word; white-space: normal;
     position: relative; z-index: 2;
     opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
   }
@@ -466,7 +467,7 @@
     .nav-links { display: none; }
 
     #hero { padding: 100px 20px 80px; }
-    .hero-name { font-size: clamp(2.8rem, 13vw, 5rem); }
+    .hero-name { font-size: clamp(1.8rem, 10vw, 3.5rem); letter-spacing: -0.02em; }
     .scroll-indicator { left: 20px; bottom: 24px; }
     .hero-cta { flex-direction: column; align-items: flex-start; }
     .btn { width: 100%; text-align: center; }
@@ -734,10 +735,10 @@
         </div>
       </a>
 
-      <!-- Project 2 -->
+      <!-- Project 3 -->
       <a href="https://myworkassistant.vercel.app/" target="_blank" class="project-card reveal">
         <div class="project-top">
-          <span class="project-num">02</span>
+          <span class="project-num">03</span>
           <div class="project-arrow">↗</div>
         </div>
         <div class="project-body">
@@ -753,10 +754,10 @@
         </div>
       </a>
 
-      <!-- Project 3 -->
+      <!-- Project 4 -->
       <a href="https://arinbbloggingpage.vercel.app/" target="_blank" class="project-card reveal">
         <div class="project-top">
-          <span class="project-num">03</span>
+          <span class="project-num">04</span>
           <div class="project-arrow">↗</div>
         </div>
         <div class="project-body">
@@ -772,10 +773,10 @@
         </div>
       </a>
 
-      <!-- Project 4 — Bonus -->
+      <!-- Project 2 — Bonus -->
       <a href="https://arinbwebpage.vercel.app/" target="_blank" class="project-card reveal">
         <div class="project-top">
-          <span class="project-num">04</span>
+          <span class="project-num">02</span>
           <div style="display:flex;gap:8px;align-items:center;">
             <span class="bonus-badge">✦ Bonus</span>
             <div class="project-arrow">↗</div>
@@ -1020,6 +1021,4 @@ window.addEventListener('scroll', () => {
 </script><script>
 </script>
 </body>
-
 </html>
-
