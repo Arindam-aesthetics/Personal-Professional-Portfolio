@@ -917,7 +917,7 @@
     <p>Have a project in mind, want to collaborate, or just want to say hi? I'm always open to interesting conversations and new opportunities.</p>
   </div>
   <div class="contact-links reveal">
-    <form class="contact-form" id="contactForm" action="https://formspree.io/f/yourformid" method="POST">
+    <form class="contact-form" id="contactForm">
       <div class="form-row">
         <div class="form-field">
           <label for="cf-name">Name</label>
@@ -936,7 +936,11 @@
       <div id="form-status"></div>
     </form>
 
-    <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;">
+    <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+      <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--muted);letter-spacing:0.05em;">or reach me at</span>
+      <a href="/cdn-cgi/l/email-protection#c2a0aaa3b6b6a3a1aaa3b0bba3a3f6f0f382a5afa3abaeeca1adaf" class="project-link-btn" style="color:var(--accent);border-color:rgba(0,229,255,0.3);">✉ <span class="__cf_email__" data-cfemail="7e1c161f0a0a1f1d161f0c071f1f4a4c4f3e19131f1712501d1113">[email&#160;protected]</span></a>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
       <a href="https://www.linkedin.com/in/arindam-bhattacharjee-354120244/" target="_blank" class="project-link-btn">💼 LinkedIn ↗</a>
       <a href="https://www.youtube.com/@Arin_tbh" target="_blank" class="project-link-btn">▶ YouTube ↗</a>
       <a href="https://github.com/Arindam-aesthetics" target="_blank" class="project-link-btn project-link-gh">GitHub ↗</a>
@@ -948,10 +952,10 @@
 <footer>
   <div class="logo-small">&lt;<span>Arin</span> /&gt;</div>
   <div>© 2025 Arindam Bhattacharjee — Built with passion &amp; code</div>
-  <div style="color:var(--accent)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6c0e040d18180d0f040d1e150d0d5f5e5d2c0b010d0500420f0301">[email&#160;protected]</a></div>
+  <div style="color:var(--accent)"><a href="/cdn-cgi/l/email-protection#04666c65707065676c65767d6565303635446369656d682a676b69" style="color:var(--accent);text-decoration:none;"><span class="__cf_email__" data-cfemail="503238312424313338312229313164626110373d31393c7e333f3d">[email&#160;protected]</span></a></div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ═══════════════════════════════════════════
 // COMET CURSOR TRAIL
 // ═══════════════════════════════════════════
@@ -1195,12 +1199,13 @@ if (contactForm) {
     formBtn.textContent = 'Sending…';
     formStatus.textContent = '';
     try {
-      const res = await fetch(contactForm.action, {
+      const res = await fetch('https://formspree.io/f/xaqdpgor', {
         method: 'POST',
         body: new FormData(contactForm),
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
+        formStatus.style.color = 'var(--accent)';
         formStatus.textContent = '✓ Message sent! I\'ll get back to you soon.';
         contactForm.reset();
         formBtn.textContent = 'Sent ✓';
@@ -1208,13 +1213,13 @@ if (contactForm) {
         throw new Error();
       }
     } catch {
+      formStatus.style.color = '#ef4444';
       formStatus.textContent = '✕ Something went wrong. Try emailing me directly.';
       formBtn.disabled = false;
       formBtn.textContent = 'Send Message →';
     }
   });
 }
-
 </script><script>
 </script>
 </body>
