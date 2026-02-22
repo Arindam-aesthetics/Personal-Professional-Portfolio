@@ -17,7 +17,7 @@
     --accent2: #7c3aed;
     --accent3: #f59e0b;
     --text: #e8eaf0;
-    --muted: #5a6070;
+    --muted: #8892a4;
     --font-display: 'Syne', sans-serif;
     --font-mono: 'DM Mono', monospace;
   }
@@ -571,6 +571,87 @@
     animation: shimmer 1.2s linear forwards;
   }
 
+  /* SCROLL PROGRESS BAR */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 9999; pointer-events: none;
+    transition: width 0.05s linear;
+    box-shadow: 0 0 8px rgba(0,229,255,0.6);
+  }
+
+  /* PROJECT LINK BUTTONS */
+  .project-arrow-wrap { display: flex; gap: 8px; align-items: center; }
+  .project-link-btn {
+    font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 6px 12px;
+    border: 1px solid var(--border); border-radius: 3px;
+    color: var(--muted); text-decoration: none;
+    transition: all 0.25s; cursor: none;
+  }
+  .project-link-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .project-link-gh:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* CURRENTLY LEARNING BADGE */
+  .now-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 28px; padding: 10px 16px;
+    background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 4px; font-family: var(--font-mono); font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .now-badge .now-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+    animation: nowPulse 2s ease-in-out infinite;
+  }
+  @keyframes nowPulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(0,229,255,0); }
+  }
+  .now-badge strong { color: var(--accent); }
+
+  /* CONTACT FORM */
+  .contact-form { display: flex; flex-direction: column; gap: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-field {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .form-field label {
+    font-family: var(--font-mono); font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  }
+  .form-field input, .form-field textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 12px 16px;
+    font-family: var(--font-mono); font-size: 0.82rem;
+    color: var(--text); outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: none;
+  }
+  .form-field input:focus, .form-field textarea:focus {
+    border-color: rgba(0,229,255,0.4);
+    box-shadow: 0 0 0 3px rgba(0,229,255,0.06);
+  }
+  .form-field input::placeholder, .form-field textarea::placeholder { color: var(--muted); opacity: 0.5; }
+  .form-submit {
+    padding: 14px 32px; background: var(--accent); color: #000;
+    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em;
+    text-transform: uppercase; border: none; border-radius: 3px;
+    cursor: none; transition: all 0.3s; font-weight: 600;
+    position: relative; overflow: hidden; align-self: flex-start;
+  }
+  .form-submit:hover { background: #fff; }
+  .form-submit:disabled { opacity: 0.6; }
+  #form-status {
+    font-family: var(--font-mono); font-size: 0.75rem;
+    color: var(--accent); min-height: 18px;
+  }
+
+  @media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
   /* SECTION NUMBER COUNTER */
   .section-counter {
     font-family: var(--font-mono); font-size: 5rem; font-weight: 800;
@@ -583,6 +664,9 @@
 </style>
 </head>
 <body>
+
+<!-- SCROLL PROGRESS BAR -->
+<div id="scroll-progress"></div>
 
 <!-- CURSOR -->
 <div id="cursor"></div>
@@ -650,18 +734,22 @@
     <p>
       Whether it's a productivity app, a blogging platform, a personal website, or a <strong>native Android app</strong> — I approach every project with curiosity and craft. I'm also a <strong>content creator</strong> sharing my journey on YouTube.
     </p>
+    <div class="now-badge reveal">
+      <span class="now-dot"></span>
+      Currently exploring: <strong>React &amp; Kotlin</strong>
+    </div>
   </div>
   <div class="about-card reveal">
     <div class="about-card-stat">
-      <div class="stat-num">5+</div>
+      <div class="stat-num" data-target="5" data-suffix="+">0+</div>
       <div class="stat-label">// Projects Shipped</div>
     </div>
     <div class="about-card-stat">
-      <div class="stat-num">3</div>
+      <div class="stat-num" data-target="3" data-suffix="">0</div>
       <div class="stat-label">// Languages Mastered</div>
     </div>
     <div class="about-card-stat">
-      <div class="stat-num">∞</div>
+      <div class="stat-num stat-infinity">∞</div>
       <div class="stat-label">// Problems to Solve</div>
     </div>
   </div>
@@ -727,10 +815,13 @@
     <div class="projects-grid">
 
       <!-- Project 1 -->
-      <a href="https://personalworkingtodolist.vercel.app/" target="_blank" class="project-card reveal">
+      <div class="project-card reveal">
         <div class="project-top">
           <span class="project-num">01</span>
-          <div class="project-arrow">↗</div>
+          <div class="project-arrow-wrap">
+            <a href="https://personalworkingtodolist.vercel.app/" target="_blank" class="project-link-btn">Live ↗</a>
+            <a href="https://github.com/Arindam-aesthetics" target="_blank" class="project-link-btn project-link-gh">GitHub</a>
+          </div>
         </div>
         <div class="project-body">
           <div class="project-type">// Productivity App</div>
@@ -743,13 +834,16 @@
           <span class="project-tech">JavaScript</span>
           <span class="project-tech">Vercel</span>
         </div>
-      </a>
+      </div>
 
-      <!-- Project 3 -->
-      <a href="https://myworkassistant.vercel.app/" target="_blank" class="project-card reveal">
+      <!-- Project 2 -->
+      <div class="project-card reveal">
         <div class="project-top">
           <span class="project-num">02</span>
-          <div class="project-arrow">↗</div>
+          <div class="project-arrow-wrap">
+            <a href="https://myworkassistant.vercel.app/" target="_blank" class="project-link-btn">Live ↗</a>
+            <a href="https://github.com/Arindam-aesthetics" target="_blank" class="project-link-btn project-link-gh">GitHub</a>
+          </div>
         </div>
         <div class="project-body">
           <div class="project-type">// All-in-One Dashboard</div>
@@ -762,13 +856,16 @@
           <span class="project-tech">JavaScript</span>
           <span class="project-tech">Vercel</span>
         </div>
-      </a>
+      </div>
 
-      <!-- Project 4 -->
-      <a href="https://arinbbloggingpage.vercel.app/" target="_blank" class="project-card reveal">
+      <!-- Project 3 -->
+      <div class="project-card reveal">
         <div class="project-top">
           <span class="project-num">03</span>
-          <div class="project-arrow">↗</div>
+          <div class="project-arrow-wrap">
+            <a href="https://arinbbloggingpage.vercel.app/" target="_blank" class="project-link-btn">Live ↗</a>
+            <a href="https://github.com/Arindam-aesthetics" target="_blank" class="project-link-btn project-link-gh">GitHub</a>
+          </div>
         </div>
         <div class="project-body">
           <div class="project-type">// Writing Platform</div>
@@ -781,15 +878,18 @@
           <span class="project-tech">JavaScript</span>
           <span class="project-tech">Vercel</span>
         </div>
-      </a>
+      </div>
 
-      <!-- Project 2 — Bonus -->
-      <a href="https://arinbwebpage.vercel.app/" target="_blank" class="project-card reveal">
+      <!-- Project 4 — Bonus -->
+      <div class="project-card reveal">
         <div class="project-top">
           <span class="project-num">04</span>
           <div style="display:flex;gap:8px;align-items:center;">
             <span class="bonus-badge">✦ Bonus</span>
-            <div class="project-arrow">↗</div>
+            <div class="project-arrow-wrap">
+              <a href="https://arinbwebpage.vercel.app/" target="_blank" class="project-link-btn">Live ↗</a>
+              <a href="https://github.com/Arindam-aesthetics" target="_blank" class="project-link-btn project-link-gh">GitHub</a>
+            </div>
           </div>
         </div>
         <div class="project-body">
@@ -803,7 +903,7 @@
           <span class="project-tech">JavaScript</span>
           <span class="project-tech">Vercel</span>
         </div>
-      </a>
+      </div>
 
     </div>
   </div>
@@ -817,30 +917,30 @@
     <p>Have a project in mind, want to collaborate, or just want to say hi? I'm always open to interesting conversations and new opportunities.</p>
   </div>
   <div class="contact-links reveal">
-    <a href="/cdn-cgi/l/email-protection#c1a3a9a0b5b5a0a2a9a0b3b8a0a0f2f3f081a6aca0a8adefa2aeac" class="contact-link">
-      <div class="contact-link-icon">✉️</div>
-      <div class="contact-link-text">
-        <div class="contact-link-label">Email</div>
-        <div class="contact-link-value"><span class="__cf_email__" data-cfemail="84e6ece5f0f0e5e7ece5f6fde5e5b7b6b5c4e3e9e5ede8aae7ebe9">[email&#160;protected]</span></div>
+    <form class="contact-form" id="contactForm" action="https://formspree.io/f/yourformid" method="POST">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-field">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" placeholder="your@email.com" required>
+        </div>
       </div>
-      <span class="contact-link-arrow">→</span>
-    </a>
-    <a href="https://www.linkedin.com/in/arindam-bhattacharjee-354120244/" target="_blank" class="contact-link">
-      <div class="contact-link-icon">💼</div>
-      <div class="contact-link-text">
-        <div class="contact-link-label">LinkedIn</div>
-        <div class="contact-link-value">Arindam Bhattacharjee</div>
+      <div class="form-field">
+        <label for="cf-msg">Message</label>
+        <textarea id="cf-msg" name="message" rows="5" placeholder="Tell me about your project or just say hi…" required></textarea>
       </div>
-      <span class="contact-link-arrow">→</span>
-    </a>
-    <a href="https://www.youtube.com/@Arin_tbh" target="_blank" class="contact-link">
-      <div class="contact-link-icon">▶️</div>
-      <div class="contact-link-text">
-        <div class="contact-link-label">YouTube</div>
-        <div class="contact-link-value">@Arin_tbh</div>
-      </div>
-      <span class="contact-link-arrow">→</span>
-    </a>
+      <button type="submit" class="form-submit" id="formBtn">Send Message →</button>
+      <div id="form-status"></div>
+    </form>
+
+    <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="https://www.linkedin.com/in/arindam-bhattacharjee-354120244/" target="_blank" class="project-link-btn">💼 LinkedIn ↗</a>
+      <a href="https://www.youtube.com/@Arin_tbh" target="_blank" class="project-link-btn">▶ YouTube ↗</a>
+      <a href="https://github.com/Arindam-aesthetics" target="_blank" class="project-link-btn project-link-gh">GitHub ↗</a>
+    </div>
   </div>
 </section>
 
@@ -894,7 +994,7 @@ function animateCursor() {
 }
 animateCursor();
 
-document.querySelectorAll('a, button').forEach(el => {
+document.querySelectorAll('a, button, .project-link-btn').forEach(el => {
   el.addEventListener('mouseenter', () => {
     cursor.style.width = '18px'; cursor.style.height = '18px';
   });
@@ -1028,6 +1128,93 @@ window.addEventListener('scroll', () => {
     a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
   });
 });
+
+// ═══════════════════════════════════════════
+// SCROLL PROGRESS BAR
+// ═══════════════════════════════════════════
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+// ═══════════════════════════════════════════
+// STAT COUNTER ANIMATION
+// ═══════════════════════════════════════════
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1200;
+  const startTime = performance.now();
+  function tick(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = target + suffix;
+  }
+  requestAnimationFrame(tick);
+}
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.target.dataset.target) {
+      animateCounter(entry.target);
+      statObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => statObserver.observe(el));
+
+// ═══════════════════════════════════════════
+// HERO MOUSE PARALLAX GLOW
+// ═══════════════════════════════════════════
+const heroGlow1 = document.querySelector('.hero-glow');
+const heroGlow2 = document.querySelector('.hero-glow2');
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 2;
+  const y = (e.clientY / window.innerHeight - 0.5) * 2;
+  if (heroGlow1) heroGlow1.style.transform = `translate(${x * 30}px, ${y * 20}px) scale(1)`;
+  if (heroGlow2) heroGlow2.style.transform = `translate(${x * -20}px, ${y * -15}px) scale(1)`;
+});
+
+// ═══════════════════════════════════════════
+// CONTACT FORM (Formspree)
+// ═══════════════════════════════════════════
+const contactForm = document.getElementById('contactForm');
+const formBtn = document.getElementById('formBtn');
+const formStatus = document.getElementById('form-status');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    formBtn.disabled = true;
+    formBtn.textContent = 'Sending…';
+    formStatus.textContent = '';
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        formStatus.textContent = '✓ Message sent! I\'ll get back to you soon.';
+        contactForm.reset();
+        formBtn.textContent = 'Sent ✓';
+      } else {
+        throw new Error();
+      }
+    } catch {
+      formStatus.textContent = '✕ Something went wrong. Try emailing me directly.';
+      formBtn.disabled = false;
+      formBtn.textContent = 'Send Message →';
+    }
+  });
+}
+
 </script><script>
 </script>
 </body>
